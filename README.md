@@ -1,2 +1,1 @@
-# system-design-practice
-System Design interview practice
+# System Design Interview Practice
