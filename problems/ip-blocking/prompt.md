@@ -1,7 +1,10 @@
 # Distributed IP Blocking Service
 
-Goal: Detect and block abusive IPs (or CIDRs/ASNs) across many edges (proxies, API gateways, app servers, clusters, CDNs) with <5s propagation, millisecond request path cost, low false positives, and auditable controls.
+Design a distributed system that blocks requests from government-mandated IP addresses
+by integrating with government APIs to fetch blocked IP lists. 
 
-Scope: Both proactive (threat feeds, reputation) and reactive (rate/behavior signals) blocking. Support IPv4/IPv6, CIDR, ASN, geo, and time-bounded blocks with exceptions (allowlists).
+The system should handle,
+- both IPv4 and IPv6 addresses
+- support region-specific blocking
+- efficiently propagate updates across a global infrastructure within acceptable timeframes
 
-Constraints: Multi-region, multi-cloud, multi-tenant isolation, thousands of edges, billions of daily requests. Prefer zero trust, signed policy, and HA.

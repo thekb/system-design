@@ -19,7 +19,7 @@ a *good* candidate lies with you at this level.
 
 ## Non Functional Requirements (2 min)
 1. Non-Functional requirements are the about the qualities of the system we 
-    designing. This is the **crux** of the problem. Most caKeep these meaningful and in the context of the system we 
+    designing. This is the **crux** of the problem. Keep these meaningful and in the context of the system we 
     are designing. Avoid vague statements. Pick 3 from below list. You are expected
     to **deep dive into at least 2** of these.
 2. Checklist to follow for coming up with non-functional requirements,

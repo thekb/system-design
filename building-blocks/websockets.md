@@ -44,12 +44,9 @@ Things to think about,
 
     * Yes  
     Can we group the peers and is the connection exclusive for the group ?
-        * No, Example chat service which uses the same connection for all the operations.
-        
+        * **No**, Example chat service which uses the same connection for all the operations.
             * Depending on the durability requirements use Redis or Kafka
-
-        * Yes, one websocket connection per document in a collaborative document editing.
-
+        * **Yes**, Example one websocket connection per document in a collaborative document editing.
             * Place all the connections on the same server
             * Have limits on the number of peers per entity to bound the problem
 
