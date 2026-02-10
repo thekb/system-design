@@ -7,4 +7,3 @@ The system should handle,
 - both IPv4 and IPv6 addresses
 - support region-specific blocking
 - efficiently propagate updates across a global infrastructure within acceptable timeframes
-
