@@ -20,7 +20,7 @@ Players expect their rank to update within seconds after each match.
 
 # Functional Requirements
 - the system should support querying top k players from the global leader board
-- the system should support fetching the relative position of a player from
+- the system should support fetching the relative position +- 5 of a player from
     their friends list
 
 # Non Functional Requirements
@@ -50,7 +50,7 @@ GameScore
 
 GET /v1/top_k?window=<>,&day=<>&k=<>
 
-GET /v1/ranks/{user_id}?count=<>
+GET /v1/ranks/{user_id}/friends
 
 # Design
 
@@ -94,12 +94,29 @@ GET /v1/ranks/{user_id}?count=<>
 
 
 # how to handle reads
-- query all the shards and compute topk and cache with TTl = 5 seconds
-- use single flight to query and update on cache miss
+## topk 
+- query all the shards top k + delta and compute topk for the combined resuls
+- cache the results with ttl of 5 seconds
+- cache should be read through
+   - use single flight to query and update on cache miss, to reduce calls to
+      upstream
+- cache can be replicated asynchronously to to scale reads, at the expense of
+   potentially state results or there can be multiple instances of cache
+   servers independently serving results
+- clients can be assigned to cache shards via consistent hashing to ensure that
+   the results they see don't flip on refresh as a result of replication lag
+- measure rps, p99 latency, cache hit rate, upstream refresh duration
+- Another approach is to have a service periodically update the cache with
+   updated topk. This will ensure that the system is available and serving
+   stale topk even when upstream is unavailable.
+# relative position
+- for a give user, 
+   - find all friends
+   - group friends by partitions
+   - issue one request per shard to find score of all the friends
+   - gather and sort the results and cache with ttl
 
-relative position
-- query scores of user friends and sort scores by relative position in the appropriate
-   global time window sorted set
-- cache and serve
-
-# Low level Design
+- read through cache
+- avg rps will be low, cache hit rate might be low due to low avg rps
+- when a user's get a new score, broadcast invalidation to all the friends
+- measure hit rate, 
